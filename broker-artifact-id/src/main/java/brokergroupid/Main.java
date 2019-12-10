@@ -7,8 +7,8 @@ public class Main
     public static Scanner scanner;
     public static void main(String[] args){
         System.out.println( "Broker: Hello World!" );
-        try{  
-            Socket s = new Socket("localhost", 5000);
+        try{
+            Socket s = new Socket("localhost", 5000); //connects to the specified port number on the named host
             OutputStream os = s.getOutputStream();
             PrintWriter pw = new PrintWriter(os);
             scanner = new Scanner(System.in);

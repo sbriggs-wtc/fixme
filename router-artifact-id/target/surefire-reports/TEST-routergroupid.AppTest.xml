@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="routergroupid.AppTest" time="0.033" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="routergroupid.AppTest" time="0.031" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="13"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="ZA"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-13.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire/surefirebooter10644607871986685505.jar /goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire 2019-12-10T16-16-12_187-jvmRun1 surefire12722454997243923426tmp surefire_017848832317029608096tmp"/>
+    <property name="sun.java.command" value="/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire/surefirebooter14991988133651978285.jar /goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire 2019-12-10T16-46-45_364-jvmRun1 surefire10467688731709161401tmp surefire_04000184679373752150tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/test-classes:/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/classes:/goinfre/sbriggs/.m2/repository/junit/junit/4.11/junit-4.11.jar:/goinfre/sbriggs/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire/surefirebooter10644607871986685505.jar"/>
+    <property name="surefire.real.class.path" value="/goinfre/sbriggs/Desktop/fixme-parent-artifact-id 2/router-artifact-id/target/surefire/surefirebooter14991988133651978285.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="13+33"/>
