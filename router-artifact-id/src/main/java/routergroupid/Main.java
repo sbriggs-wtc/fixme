@@ -35,20 +35,19 @@ class ClientRunnable implements Runnable{
     public void run(){
         System.out.println("\nClient connected:\n" + socket.toString() + "\n");
         try{
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-            String inputStreamLine;
             while(true){
-                printWriter.println("Press 1 to view available markets");
-                printWriter.flush();
-
-                inputStreamLine = bufferedReader.readLine();
-                if(inputStreamLine == null){System.out.println("\nClient disconnected:\n" + socket.toString() + "\n");break;}
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream());    
+                String inputStreamLine = bufferedReader.readLine();
+                if(inputStreamLine == null){
+                    System.out.println("\nClient disconnected:\n" + socket.toString() + "\n");
+                    break;
+                }
                 System.out.println("\n" + socket.toString() + "\n" + inputStreamLine + "\n");
                 switch(inputStreamLine){
-                    case "1": printWriter.println("You pressed 1"); break;
-                    case "2": printWriter.println("You pressed 2"); break;
-                    default:  printWriter.println("Say what?"); break;
+                    case "1": printWriter.println("You pressed 1\nPress 1 to view available markets"); break;
+                    case "2": printWriter.println("You pressed 2\nPress 1 to view available markets"); break;
+                    default:  printWriter.println("Press 1 to view available markets"); break;
                 }
                 printWriter.flush();
             }
@@ -60,7 +59,7 @@ class ClientRunnable implements Runnable{
 
 
 
-/* 
+/*
 
 System.out.println("Listener started on: \n" + 
 serverSocket.getLocalPort() + "\n" +
