@@ -4,14 +4,14 @@ import java.io.*;
 public class Main{
     public static void main( String[] args ){
         try{
-            Thread brokerThread = new Thread(new ListenerRunnable(new ServerSocket(5000)));brokerThread.start();
-            Thread marketThread = new Thread(new ListenerRunnable(new ServerSocket(5001)));marketThread.start();
+            Thread brokerThread = new Thread(new SuperHandler(new ServerSocket(5000)));brokerThread.start();
+            Thread marketThread = new Thread(new SuperHandler(new ServerSocket(5001)));marketThread.start();
         } catch(IOException e){System.err.println(e.getMessage());}
     }
 }
-class ListenerRunnable implements Runnable{
+class SuperHandler implements Runnable{
     ServerSocket serverSocket;
-    ListenerRunnable(ServerSocket serverSocket){
+    SuperHandler(ServerSocket serverSocket){
         this.serverSocket = serverSocket;
         System.out.println("Listener started on: " + serverSocket.getLocalPort());
     }
@@ -20,36 +20,39 @@ class ListenerRunnable implements Runnable{
         try{
             while(true){        
                 Socket socket = serverSocket.accept();
-                Thread thread = new Thread(new ClientRunnable(socket));
+                Thread thread = new Thread(new SubHandler(socket));
                 thread.start();
             }
         } catch (IOException e){System.err.println(e.getMessage());}
     }
 }
-class ClientRunnable implements Runnable{
+class SubHandler implements Runnable{
     private Socket socket;
-    ClientRunnable(Socket socket){
+    private String uniqueID;
+    SubHandler(Socket socket){
         this.socket = socket;
+        this.uniqueID = socket.toString();
     }
     @Override
     public void run(){
-        System.out.println("\nClient connected:\n" + socket.toString() + "\n");
+        System.out.println("\nClient connected:\n" + uniqueID + "\n");
         try{
             while(true){
+
+                //READING
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter printWriter = new PrintWriter(socket.getOutputStream());    
                 String inputStreamLine = bufferedReader.readLine();
-                if(inputStreamLine == null){
-                    System.out.println("\nClient disconnected:\n" + socket.toString() + "\n");
-                    break;
-                }
-                System.out.println("\n" + socket.toString() + "\n" + inputStreamLine + "\n");
+                if(inputStreamLine == null){System.out.println("\nClient disconnected:\n" + uniqueID + "\n");break;} //this breaks the loop
+
+                // WRITING
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream());    
+                System.out.println("\n" + uniqueID + "\n" + inputStreamLine + "\n");
                 switch(inputStreamLine){
-                    case "1": printWriter.println("You pressed 1\nPress 1 to view available markets"); break;
-                    case "2": printWriter.println("You pressed 2\nPress 1 to view available markets"); break;
-                    default:  printWriter.println("Press 1 to view available markets"); break;
+                    case "1":   printWriter.println("You pressed 1\nPress 1 to view available markets");printWriter.flush(); break;
+                    case "2":   printWriter.println("You pressed 2\nPress 1 to view available markets");printWriter.flush(); break;
+                    case "3":   printWriter.println("You pressed 3\nPress 1 to view available markets");printWriter.flush(); break;
+                    default:    printWriter.println("Press 1 to view available markets");printWriter.flush(); break;
                 }
-                printWriter.flush();
             }
         } catch(IOException e){System.err.println(e.getMessage());}
     }
