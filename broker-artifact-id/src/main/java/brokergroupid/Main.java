@@ -13,19 +13,17 @@ public class Main{
             printWriter.println("I am a broker"); printWriter.flush();
 
             while(true){
-                
-                //READING
+
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String inputStreamLine = bufferedReader.readLine();
                 if(inputStreamLine == null){System.out.println("\nServer disconnected:\n");break;}
                 System.out.println("\nServer\n" + inputStreamLine + "\n");
-
-                //WRITING
                 printWriter = new PrintWriter(socket.getOutputStream());
-                System.out.println("Press 1 for the NYSE\nPress 2 for the LSE\nPress 3 for the JSE");
+                System.out.println("Press 1 for NYSE instruments\nPress 2 for LSE instruments\nPress 3 for JSE instruments");
                 String brokerInput = scanner.nextLine();
                 printWriter.println(brokerInput); printWriter.flush();
             }
         } catch (IOException e){System.err.println(e.getMessage());}
     }
 }
+

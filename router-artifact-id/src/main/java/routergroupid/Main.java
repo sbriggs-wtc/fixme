@@ -2,7 +2,7 @@ package routergroupid;
 import java.net.*;
 import java.io.*;
 public class Main{
-    public static void main( String[] args ){
+    public static void main(String[] args){
         try{
             Thread brokerThread = new Thread(new SuperHandler(new ServerSocket(5000)));brokerThread.start();
             Thread marketThread = new Thread(new SuperHandler(new ServerSocket(5001)));marketThread.start();
@@ -44,14 +44,24 @@ class SubHandler implements Runnable{
                 String inputStreamLine = bufferedReader.readLine();
                 if(inputStreamLine == null){System.out.println("\nClient disconnected:\n" + uniqueID + "\n");break;} //this breaks the loop
 
-                // WRITING
+                //WRITING
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream());    
                 System.out.println("\n" + uniqueID + "\n" + inputStreamLine + "\n");
-                switch(inputStreamLine){
-                    case "1":   printWriter.println("You pressed 1\nPress 1 to view available markets");printWriter.flush(); break;
-                    case "2":   printWriter.println("You pressed 2\nPress 1 to view available markets");printWriter.flush(); break;
-                    case "3":   printWriter.println("You pressed 3\nPress 1 to view available markets");printWriter.flush(); break;
-                    default:    printWriter.println("Press 1 to view available markets");printWriter.flush(); break;
+                
+                if(socket.getLocalPort() == 5000){
+                    switch(inputStreamLine){
+                        case "1":   printWriter.println("You pressed 1");printWriter.flush(); break;
+                        case "2":   printWriter.println("You pressed 2");printWriter.flush(); break;
+                        case "3":   printWriter.println("You pressed 3");printWriter.flush(); break;
+                        default:    printWriter.println("Press 1 to view available markets");printWriter.flush(); break;
+                    }
+                } else if (socket.getLocalPort() == 5001){
+                    switch(inputStreamLine){
+                        case "1":   printWriter.println("You pressed 1");printWriter.flush(); break;
+                        case "2":   printWriter.println("You pressed 2");printWriter.flush(); break;
+                        case "3":   printWriter.println("You pressed 3");printWriter.flush(); break;
+                        default:    printWriter.println("Default");printWriter.flush(); break;
+                    }
                 }
             }
         } catch(IOException e){System.err.println(e.getMessage());}
