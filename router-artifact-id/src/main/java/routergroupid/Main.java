@@ -2,6 +2,9 @@ package routergroupid;
 import java.net.*;
 import java.io.*;
 public class Main{
+    public static Socket nyseSocket;
+    public static Socket lseSocket;
+    public static Socket jseSocket;
     public static void main(String[] args){
         try{
             Thread brokerThread = new Thread(new SuperHandler(new ServerSocket(5000)));brokerThread.start();
@@ -35,45 +38,70 @@ class SubHandler implements Runnable{
     }
     @Override
     public void run(){
-        System.out.println("\nClient connected:\n" + uniqueID + "\n");
+
         try{
+            System.out.println("\nClient connected:\n" + uniqueID + "\n");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String inputStreamLine = bufferedReader.readLine();
+            if(inputStreamLine == null){System.out.println("\nClient disconnected:\n" + uniqueID + "\n");}
+            if(socket.getLocalPort() == 5001){
+                switch (inputStreamLine){
+                    case "NYSE": Main.nyseSocket = this.socket; break;
+                    case "LSE": Main.lseSocket = this.socket; break;
+                    case "JSE": Main.jseSocket = this.socket; break;
+                    default:break;
+                }
+            }
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+            printWriter.println("Hit enter to refresh");printWriter.flush();
+
             while(true){
 
                 //READING
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String inputStreamLine = bufferedReader.readLine();
+                bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                inputStreamLine = bufferedReader.readLine();
                 if(inputStreamLine == null){System.out.println("\nClient disconnected:\n" + uniqueID + "\n");break;} //this breaks the loop
+                System.out.println("\n" + uniqueID + "\n" + inputStreamLine + "\n");
 
                 //WRITING
-                PrintWriter printWriter = new PrintWriter(socket.getOutputStream());    
-                System.out.println("\n" + uniqueID + "\n" + inputStreamLine + "\n");
-                
+                printWriter = new PrintWriter(socket.getOutputStream());                    
                 if(socket.getLocalPort() == 5000){
                     switch(inputStreamLine){
-                        case "1":   printWriter.println("You pressed 1");printWriter.flush(); break;
-                        case "2":   printWriter.println("You pressed 2");printWriter.flush(); break;
-                        case "3":   printWriter.println("You pressed 3");printWriter.flush(); break;
+                        case "1":
+                            printWriter = new PrintWriter(Main.nyseSocket.getOutputStream());
+                            printWriter.println("please send your list");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.nyseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
+                        case "2":
+                            printWriter = new PrintWriter(Main.lseSocket.getOutputStream());
+                            printWriter.println("please send your list");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.lseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break; 
+                        case "3":   
+                            printWriter = new PrintWriter(Main.jseSocket.getOutputStream());
+                            printWriter.println("please send your list");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.jseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
                         default:    printWriter.println("Press 1 to view available markets");printWriter.flush(); break;
                     }
-                } else if (socket.getLocalPort() == 5001){
-                    switch(inputStreamLine){
-                        case "1":   printWriter.println("You pressed 1");printWriter.flush(); break;
-                        case "2":   printWriter.println("You pressed 2");printWriter.flush(); break;
-                        case "3":   printWriter.println("You pressed 3");printWriter.flush(); break;
-                        default:    printWriter.println("Default");printWriter.flush(); break;
-                    }
+                }else if(socket.getLocalPort() == 5001){
+                    printWriter.println("Hit enter to refresh");printWriter.flush();
                 }
             }
         } catch(IOException e){System.err.println(e.getMessage());}
     }
 }
 
-
-
-
-
 /*
-
 System.out.println("Listener started on: \n" + 
 serverSocket.getLocalPort() + "\n" +
 serverSocket.getInetAddress() + "\n" +

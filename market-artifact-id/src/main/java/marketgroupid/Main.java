@@ -10,42 +10,52 @@ public class Main{
         try{
             socket = new Socket("localhost", 5001);
             scanner = new Scanner(System.in);
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-            printWriter.println("I am a market"); printWriter.flush();
-            System.out.println("Press 1 if you are the NYSE\nPress 2 if you are the LSE\nPress 3 if you are the JSE");
-            String marketInput;
-            switch(scanner.nextLine()){
-                case("1"): market = new Market("NYSE"); break;
-                case("2"): market = new Market("LSE");break;
-                case("3"): market = new Market("JSE");break;
+
+            boolean exit = false;
+            String marketInput = null;
+            while(!exit){
+                System.out.println("Press 1 if you are the NYSE\nPress 2 if you are the LSE\nPress 3 if you are the JSE");
+                marketInput = scanner.nextLine();
+                switch(marketInput){
+                    case("1"): market = new Market("NYSE"); exit = true; break;
+                    case("2"): market = new Market("LSE"); exit = true; break;
+                    case("3"): market = new Market("JSE"); exit = true; break;
+                    default: break;
+                }
             }
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+            printWriter.println(market.getMarketName()); printWriter.flush();
 
             while(true){
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String inputStreamLine = bufferedReader.readLine();
-                if(inputStreamLine == null){System.out.println("\nServer disconnected:\n");break;}
-                System.out.println("\nServer\n" + inputStreamLine + "\n");
+                if(inputStreamLine == null){System.out.println("\nRouter disconnected\n");break;}
+                switch (inputStreamLine) {
+                    case "please send your list":
+                        marketInput = market.formattedList();
+                        printWriter.println(marketInput); printWriter.flush();
+                        break;
+                    default:
+                        System.out.println("\nRouter\n" + inputStreamLine + "\n");
+                        printWriter = new PrintWriter(socket.getOutputStream());
+                        System.out.println(market.formattedList());
+                        //marketInput = scanner.nextLine();
+                        Thread.sleep(100);
+                        printWriter.println(marketInput); printWriter.flush();
+                        break;
+                }
 
-                printWriter = new PrintWriter(socket.getOutputStream());
-                System.out.println(market.getMarketName() + " instruments :\n" + 
-                                                market.getInstrument1Name() + ": " + Integer.toString(market.getInstrument1Val()) +"\n" +
-                                                market.getInstrument2Name() + ": " + Integer.toString(market.getInstrument1Val()) +"\n" +
-                                                market.getInstrument2Name() + ": " + Integer.toString(market.getInstrument1Val()));
-                marketInput = scanner.nextLine();
-                printWriter.println(marketInput); printWriter.flush();
             }
-        } catch (IOException e){System.err.println(e.getMessage());}
+        } catch (Exception e){System.err.println(e.getMessage());}
     }
 }
 
 class Market {
     private static String marketName;
-
     private static String instrument1Name;
     private static String instrument2Name;
     private static String instrument3Name;
-
     private static int instrument1Val;
     private static int instrument2Val;
     private static int instrument3Val;
@@ -84,10 +94,12 @@ class Market {
     public String getInstrument1Name(){return instrument1Name;}
     public String getInstrument2Name(){return instrument2Name;}
     public String getInstrument3Name(){return instrument3Name;}
-
     public int getInstrument1Val(){return instrument1Val;}
     public int getInstrument2Val(){return instrument2Val;}
     public int getInstrument3Val(){return instrument3Val;}
-
     public String getMarketName(){return marketName;}
+    public String formattedList(){return getMarketName() + " instruments : " + 
+        getInstrument1Name() + ": " + Integer.toString(getInstrument1Val()) +", " +
+        getInstrument2Name() + ": " + Integer.toString(getInstrument2Val()) +", " +
+        getInstrument3Name() + ": " + Integer.toString(getInstrument3Val());}
 }

@@ -16,7 +16,7 @@ public class Main{
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String inputStreamLine = bufferedReader.readLine();
-                if(inputStreamLine == null){System.out.println("\nServer disconnected:\n");break;}
+                if(inputStreamLine == null){System.out.println("\nServer disconnected\n");break;}
                 System.out.println("\nServer\n" + inputStreamLine + "\n");
                 printWriter = new PrintWriter(socket.getOutputStream());
                 System.out.println("Press 1 for NYSE instruments\nPress 2 for LSE instruments\nPress 3 for JSE instruments");
