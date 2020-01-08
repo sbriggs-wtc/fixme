@@ -49,7 +49,7 @@ class SubHandler implements Runnable{
                     case "NYSE": Main.nyseSocket = this.socket; break;
                     case "LSE": Main.lseSocket = this.socket; break;
                     case "JSE": Main.jseSocket = this.socket; break;
-                    default:break;
+                    default: break;
                 }
             }
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
@@ -67,25 +67,74 @@ class SubHandler implements Runnable{
                 printWriter = new PrintWriter(socket.getOutputStream());                    
                 if(socket.getLocalPort() == 5000){
                     switch(inputStreamLine){
+                    //THIS IS WHERE THE FIX MESSAGE NEEDS TO BE PARSED AND SENT TO THE MARKET
                         case "1":
                             printWriter = new PrintWriter(Main.nyseSocket.getOutputStream());
-                            printWriter.println("please send your list");printWriter.flush();
+                            printWriter.println("gimme 100 of instrument 1");printWriter.flush(); //THIS WILL BE A FIX MESSAGE
                             bufferedReader = new BufferedReader(new InputStreamReader(Main.nyseSocket.getInputStream()));
                             inputStreamLine = bufferedReader.readLine();
                             printWriter = new PrintWriter(socket.getOutputStream());
                             printWriter.println(inputStreamLine);printWriter.flush();
                             break;
                         case "2":
-                            printWriter = new PrintWriter(Main.lseSocket.getOutputStream());
-                            printWriter.println("please send your list");printWriter.flush();
-                            bufferedReader = new BufferedReader(new InputStreamReader(Main.lseSocket.getInputStream()));
+                            printWriter = new PrintWriter(Main.nyseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 2");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.nyseSocket.getInputStream()));
                             inputStreamLine = bufferedReader.readLine();
                             printWriter = new PrintWriter(socket.getOutputStream());
                             printWriter.println(inputStreamLine);printWriter.flush();
                             break; 
                         case "3":   
+                            printWriter = new PrintWriter(Main.nyseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 3");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.nyseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
+                        case "4":
+                            printWriter = new PrintWriter(Main.lseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 1");printWriter.flush(); //THIS WILL BE A FIX MESSAGE
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.lseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
+                        case "5":
+                            printWriter = new PrintWriter(Main.lseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 2");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.lseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break; 
+                        case "6":   
+                            printWriter = new PrintWriter(Main.lseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 3");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.lseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
+                        case "7":
                             printWriter = new PrintWriter(Main.jseSocket.getOutputStream());
-                            printWriter.println("please send your list");printWriter.flush();
+                            printWriter.println("gimme 100 of instrument 1");printWriter.flush(); //THIS WILL BE A FIX MESSAGE
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.jseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break;
+                        case "8":
+                            printWriter = new PrintWriter(Main.jseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 2");printWriter.flush();
+                            bufferedReader = new BufferedReader(new InputStreamReader(Main.jseSocket.getInputStream()));
+                            inputStreamLine = bufferedReader.readLine();
+                            printWriter = new PrintWriter(socket.getOutputStream());
+                            printWriter.println(inputStreamLine);printWriter.flush();
+                            break; 
+                        case "9":   
+                            printWriter = new PrintWriter(Main.jseSocket.getOutputStream());
+                            printWriter.println("gimme 100 of instrument 3");printWriter.flush();
                             bufferedReader = new BufferedReader(new InputStreamReader(Main.jseSocket.getInputStream()));
                             inputStreamLine = bufferedReader.readLine();
                             printWriter = new PrintWriter(socket.getOutputStream());

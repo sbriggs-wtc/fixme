@@ -32,8 +32,21 @@ public class Main{
                 String inputStreamLine = bufferedReader.readLine();
                 if(inputStreamLine == null){System.out.println("\nRouter disconnected\n");break;}
                 switch (inputStreamLine) {
-                    case "please send your list":
+                    // THIS WILL PARSE THE FIX MESSAGE RECEIVED
+                    case "please send your list": //THIS WILL BE A FIX MESSAGE
                         marketInput = market.formattedList();
+                        printWriter.println(marketInput); printWriter.flush();
+                        break;
+                    case "gimme 100 of instrument 1":
+                        marketInput = market.decrementInstrument1Val(100);
+                        printWriter.println(marketInput); printWriter.flush();
+                        break;
+                    case "gimme 100 of instrument 2":
+                        marketInput = market.decrementInstrument2Val(100);
+                        printWriter.println(marketInput); printWriter.flush();
+                        break;
+                    case "gimme 100 of instrument 3":
+                        marketInput = market.decrementInstrument3Val(100);
                         printWriter.println(marketInput); printWriter.flush();
                         break;
                     default:
@@ -97,6 +110,9 @@ class Market {
     public int getInstrument1Val(){return instrument1Val;}
     public int getInstrument2Val(){return instrument2Val;}
     public int getInstrument3Val(){return instrument3Val;}
+    public String decrementInstrument1Val(int n){ this.instrument1Val -= n; return("purchase successful");}
+    public String decrementInstrument2Val(int n){ this.instrument2Val -= n; return("purchase successful");}
+    public String decrementInstrument3Val(int n){ this.instrument3Val -= n; return("purchase successful");}
     public String getMarketName(){return marketName;}
     public String formattedList(){return getMarketName() + " instruments : " + 
         getInstrument1Name() + ": " + Integer.toString(getInstrument1Val()) +", " +
