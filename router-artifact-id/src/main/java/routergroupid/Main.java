@@ -146,7 +146,7 @@ class SubHandler implements Runnable{
                     printWriter.println("Hit enter to refresh");printWriter.flush();
                 }
             }
-        } catch(IOException e){System.err.println(e.getMessage());}
+        } catch(IOException e){System.err.println(e.getMessage() + "hjkashjkasghjkasdhjk");}
     }
 }
 
