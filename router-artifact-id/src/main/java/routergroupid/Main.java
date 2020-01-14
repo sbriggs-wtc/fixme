@@ -35,6 +35,7 @@ class SubHandler implements Runnable{
     SubHandler(Socket socket){
         this.socket = socket;
         this.uniqueID = socket.toString();
+        this.uniqueID = takeOutUnnecessaryChars(this.uniqueID);
     }
     @Override
     public void run(){
@@ -147,6 +148,18 @@ class SubHandler implements Runnable{
                 }
             }
         } catch(IOException e){System.err.println(e.getMessage() + "hjkashjkasghjkasdhjk");}
+    }
+    public static String takeOutUnnecessaryChars(String uniqueID){
+        StringBuilder stringBuilder = new StringBuilder();
+        String s0 = uniqueID.split("=")[0];
+        String s1 = uniqueID.split("=")[1];
+        String s2 = uniqueID.split("=")[2];
+        String s3 = uniqueID.split("=")[3];
+        stringBuilder.append(s0);
+        stringBuilder.append(s1);
+        stringBuilder.append(s2);
+        stringBuilder.append(s3);
+        return(stringBuilder.toString());
     }
 }
 
